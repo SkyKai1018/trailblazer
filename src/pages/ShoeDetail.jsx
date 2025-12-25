@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { useShoes } from '../hooks/useShoes'
+import { trackShoeView } from '../utils/analytics'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import ImageCarousel from '../components/ImageCarousel'
@@ -17,6 +19,7 @@ import FitAndSizing from '../components/FitAndSizing'
 import CommunitySentiment from '../components/CommunitySentiment'
 import CompetitorComparison from '../components/CompetitorComparison'
 import BuyingGuide from '../components/BuyingGuide'
+import StructuredData from '../components/StructuredData'
 import { ArrowLeft } from 'lucide-react'
 
 export default function ShoeDetail() {
@@ -31,6 +34,13 @@ export default function ShoeDetail() {
       try {
         const data = await getShoeById(id)
         setShoe(data)
+        
+        // 追蹤鞋款查看
+        if (data) {
+          const brand = data.brand || ''
+          const name = data.name || ''
+          trackShoeView(id, name, brand)
+        }
       } catch (error) {
         console.error('載入鞋款資料失敗:', error)
       } finally {
@@ -122,9 +132,31 @@ export default function ShoeDetail() {
   const coverImageUrl = getImageUrl()
   const youtubeVideoUrl = getVideoUrl()
 
+  // 取得 SEO 資料
+  const brand = productData.product_identity?.brand || shoe.brand
+  const modelName = productData.product_identity?.model_name || shoe.name
+  const summary = productData.marketing_copy?.one_sentence_summary || shoe.short_desc || `${brand} ${modelName} 詳細評測`
+  const keywords = `${brand}, ${modelName}, 越野跑鞋, 跑鞋推薦, 跑鞋評測, ${brand} ${modelName} 購買, 越野跑鞋推薦`
+
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50">
-      <Navbar />
+    <>
+      <Helmet>
+        <title>{`${brand} ${modelName} 評測 | 越野跑鞋圖鑑`}</title>
+        <meta name="description" content={summary} />
+        <meta name="keywords" content={keywords} />
+        <meta property="og:title" content={`${brand} ${modelName} 評測`} />
+        <meta property="og:description" content={summary} />
+        <meta property="og:image" content={coverImageUrl || shoe.image_url || ''} />
+        <meta property="og:type" content="product" />
+        <meta property="og:url" content={typeof window !== 'undefined' ? `${window.location.origin}/shoe/${shoe.id}` : ''} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${brand} ${modelName} 評測`} />
+        <meta name="twitter:description" content={summary} />
+        <link rel="canonical" href={typeof window !== 'undefined' ? `${window.location.origin}/shoe/${shoe.id}` : ''} />
+      </Helmet>
+      <StructuredData shoe={shoe} productData={productData} />
+      <div className="min-h-screen flex flex-col bg-slate-50">
+        <Navbar />
       <main className="flex-1 container mx-auto px-4 py-8">
         <Link
           to="/"
@@ -264,8 +296,9 @@ export default function ShoeDetail() {
           </div>
         </div>
       </main>
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </>
   )
 }
 

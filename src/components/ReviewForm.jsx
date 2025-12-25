@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useAuth } from '../hooks/useAuth'
 import { supabase, isSupabaseConfigured } from '../services/supabase'
+import { trackReviewSubmit } from '../utils/analytics'
 import { Send } from 'lucide-react'
 
 const getMockReviewsKey = (shoeId) => `trailblazer_mock_reviews_${shoeId}`
@@ -61,6 +62,10 @@ export default function ReviewForm({ shoeId, onReviewAdded }) {
       }
 
       setContent('')
+      
+      // 追蹤評論提交
+      trackReviewSubmit(shoeId)
+      
       // 觸發更新（延遲一點確保資料已寫入）
       setTimeout(() => {
         if (onReviewAdded) {

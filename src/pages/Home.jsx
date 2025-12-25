@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { Helmet } from 'react-helmet-async'
 import { useShoes } from '../hooks/useShoes'
 import { useAuth } from '../hooks/useAuth'
 import { Link } from 'react-router-dom'
@@ -6,12 +7,23 @@ import SearchBar from '../components/SearchBar'
 import ShoeCard from '../components/ShoeCard'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
+import { trackSearch } from '../utils/analytics'
 import { Plus } from 'lucide-react'
 
 export default function Home() {
   const { shoes, loading } = useShoes()
   const { isAdmin } = useAuth()
   const [searchQuery, setSearchQuery] = useState('')
+  
+  // 追蹤搜尋（延遲執行，避免每次輸入都追蹤）
+  useEffect(() => {
+    if (searchQuery.trim()) {
+      const timer = setTimeout(() => {
+        trackSearch(searchQuery)
+      }, 1000) // 1 秒後才追蹤
+      return () => clearTimeout(timer)
+    }
+  }, [searchQuery])
 
   const filteredShoes = shoes.filter((shoe) => {
     if (!searchQuery.trim()) return true
@@ -65,8 +77,18 @@ export default function Home() {
   })
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50">
-      <Navbar />
+    <>
+      <Helmet>
+        <title>越野跑鞋圖鑑 | 專業評測與購買指南</title>
+        <meta name="description" content="最完整的越野跑鞋評測資料庫，包含詳細規格、性能分析、購買指南與使用者評價。幫助你找到最適合的越野跑鞋。" />
+        <meta name="keywords" content="越野跑鞋, 跑鞋推薦, 越野跑鞋購買, 跑鞋評測, 越野鞋, trail running shoes, 跑鞋比較, 最佳越野跑鞋" />
+        <meta property="og:title" content="越野跑鞋圖鑑 | 專業評測與購買指南" />
+        <meta property="og:description" content="最完整的越野跑鞋評測資料庫，包含詳細規格、性能分析、購買指南與使用者評價。" />
+        <meta property="og:type" content="website" />
+        <link rel="canonical" href={typeof window !== 'undefined' ? window.location.origin : ''} />
+      </Helmet>
+      <div className="min-h-screen flex flex-col bg-slate-50">
+        <Navbar />
       <main className="flex-1 container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto mb-6">
           <SearchBar value={searchQuery} onChange={setSearchQuery} />
@@ -102,8 +124,9 @@ export default function Home() {
           </div>
         )}
       </main>
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </>
   )
 }
 
