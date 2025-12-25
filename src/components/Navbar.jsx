@@ -32,7 +32,7 @@ export default function Navbar() {
               <span className="text-white font-bold text-lg">T</span>
             </div>
             <span className="font-bold text-xl">TrailBlazer</span>
-            <span className="text-sm text-slate-300">跑鞋圖鑑</span>
+            <span className="text-sm text-slate-300">越野跑鞋圖鑑</span>
           </Link>
 
           <div className="flex items-center gap-4">

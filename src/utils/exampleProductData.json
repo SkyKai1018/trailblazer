@@ -1,0 +1,187 @@
+{
+  "metadata": {
+    "data_version": "1.2",
+    "created_at": "2024-05-20",
+    "language": "zh-TW",
+    "source_type": "Aggregated Review"
+  },
+  "product_identity": {
+    "brand": "Hoka",
+    "model_name": "Speedgoat 6",
+    "nickname": "山羊 6",
+    "sku_example": "1155770",
+    "category": "Trail Running Shoes",
+    "release_year": 2024,
+    "market_positioning": "Technical All-Terrain (技術型全地形)",
+    "cover_image_url": "https://example.com/images/speedgoat-6-cover.jpg",
+    "youtube_video_url": "https://www.youtube.com/watch?v=example",
+    "price_info": {
+      "currency": "USD",
+      "msrp": 155,
+      "twd_approx": {
+        "regular": 5280,
+        "gtx_version": 5980
+      },
+      "price_tier": "Mid-High"
+    }
+  },
+  "marketing_copy": {
+    "slogan": "不再是柔軟的沙發，而是全地形坦克。",
+    "one_sentence_summary": "Hoka 最具代表性的越野鞋款，第六代犧牲了部分舒適度與透氣性，換取了極致的耐用度、穩定性與抓地力。",
+    "detailed_introduction": "Speedgoat 6 是 Hoka 針對技術地形進行的一次硬派升級。它捨棄了上一代備受喜愛（但壽命短）的軟彈腳感，改用密度更高的 CMEVA 中底與堅韌的編織鞋面。這是一雙為了長距離、惡劣環境而生的工作馬，雖然需要磨合期，但它能陪你走得更遠、更穩。"
+  },
+  "specifications": {
+    "weight_g": 278,
+    "weight_note": "男款 US9 數據",
+    "drop_mm": 5,
+    "stack_height": {
+      "heel_mm": 40,
+      "forefoot_mm": 35,
+      "note": "超厚底設計，無防刺板但隔絕感強"
+    },
+    "lug_depth_mm": 5,
+    "components": {
+      "outsole": {
+        "tech": "Vibram® Megagrip",
+        "feature": "Traction Lug (鯊魚齒刻紋) + 靈感來自山羊蹄的排列設計"
+      },
+      "midsole": {
+        "tech": "Resilient CMEVA Foam",
+        "feature": "Internal Chassis (內部支撐架) 提供抗扭轉穩定性"
+      },
+      "upper": {
+        "tech": "Woven Textile",
+        "feature": "無延展性編織材質，鎖定感強但透氣弱"
+      }
+    }
+  },
+  "performance_analysis": {
+    "grip": {
+      "score": 10,
+      "summary": "滿分表現",
+      "description": "業界標竿。在濕滑青苔石、鬆散土路與樹根盤繞路段，提供令人安心的絕對制動力。"
+    },
+    "cushioning": {
+      "score": 7.5,
+      "summary": "硬派回彈",
+      "description": "腳感偏硬 (Firm)，路感清晰。不像 SG5 那樣軟彈，初穿像踩磚頭，但長距離支撐性極佳。"
+    },
+    "stability": {
+      "score": 9,
+      "summary": "極佳",
+      "description": "受惠於較硬的中底與內部支撐架，在崎嶇路面不會發生軟腳或翻船的不穩定感。"
+    },
+    "breathability": {
+      "score": 6,
+      "summary": "悶熱",
+      "description": "為了耐用度而犧牲了透氣孔隙，編織鞋面散熱慢，夏季長跑容易積熱。"
+    },
+    "durability": {
+      "score": 9,
+      "summary": "大幅躍進",
+      "description": "解決了系列作最大的痛點。中底抗潰縮能力強，大底耐磨，鞋面不易破損。"
+    }
+  },
+  "fit_and_sizing": {
+    "overall_fit": "Runs Narrow (版型偏窄)",
+    "break_in_period": "50-80 km",
+    "alerts": [
+      {
+        "type": "warning",
+        "title": "鞋頭過窄 (Tapered Toe Box)",
+        "content": "鞋頭錐形收尖嚴重，寬腳跑者的小拇指與外側蹠骨極易受壓迫起水泡。"
+      },
+      {
+        "type": "warning",
+        "title": "鞋舌過短",
+        "content": "鞋舌填充薄且短，若使用 Runner's Knot (最後鞋孔) 容易勒傷腳背肌腱。"
+      }
+    ],
+    "recommendation": "強烈建議購買寬楦版 (Wide/2E) 或大半號。寬腳者需謹慎試穿。"
+  },
+  "community_sentiment": {
+    "overall_sentiment": "Polarized (評價兩極)",
+    "details": [
+      {
+        "group": "Comfort Seekers (老粉)",
+        "sentiment": "Negative",
+        "comment": "失去了 Hoka 靈魂（踩屎感），太硬太窄，穿起來不舒服。",
+        "action": "轉投 Mafate Speed 4"
+      },
+      {
+        "group": "Technical Runners (技術型)",
+        "sentiment": "Positive",
+        "comment": "終於變穩了！SG5 太軟容易翻船，SG6 才是真正能跑技術地形的戰車。",
+        "action": "高度讚賞耐用度"
+      }
+    ]
+  },
+  "pros_and_cons": {
+    "pros": [
+      "Vibram Megagrip 抓地力無敵",
+      "耐用度大幅提升 (中底/鞋面)",
+      "技術地形穩定性極佳",
+      "足部鎖定感強"
+    ],
+    "cons": [
+      "楦頭過窄，易夾腳",
+      "透氣性不佳",
+      "需要較長的磨合期 (硬)",
+      "鞋舌設計不友善"
+    ]
+  },
+  "competitor_comparison": [
+    {
+      "competitor_brand": "Hoka",
+      "competitor_model": "Mafate Speed 4",
+      "relation_type": "Internal Rival (家族內戰)",
+      "price_diff": "Higher (+$25 USD)",
+      "key_difference": "Mafate 採用雙密度中底 (PROFLY+)，上層軟彈、下層穩，腳感比 SG6 活潑且舒適。",
+      "buying_tip": "如果你想要更軟、更彈、更寬一點的腳感，選 Mafate。"
+    },
+    {
+      "competitor_brand": "Altra",
+      "competitor_model": "Olympus 6",
+      "relation_type": "Wide Fit Alternative (寬腳救星)",
+      "price_diff": "Similar",
+      "key_difference": "Olympus 擁有最寬的 Original FootShape™ 楦頭與零足跟差 (Zero Drop)。",
+      "buying_tip": "如果你穿 SG6 會起水泡，或者你是寬腳掌，選 Olympus。"
+    },
+    {
+      "competitor_brand": "Merrell",
+      "competitor_model": "Agility Peak 5",
+      "relation_type": "Value Pick (高CP值)",
+      "price_diff": "Lower (-$15 USD)",
+      "key_difference": "重量更輕，且腳感較接近上一代 SG5 的柔軟度，但耐用度稍遜於 SG6。",
+      "buying_tip": "如果你懷念 SG5 的感覺且預算有限，這雙是最佳替代品。"
+    },
+    {
+      "competitor_brand": "Saucony",
+      "competitor_model": "Xodus Ultra 2",
+      "relation_type": "Long Distance Comfort (長距離舒適)",
+      "price_diff": "Similar",
+      "key_difference": "PWRRUN PB 中底提供極佳的能量回饋，鞋面較為寬鬆舒適。",
+      "buying_tip": "適合百公里以上的超馬，舒適度優於 SG6。"
+    }
+  ],
+  "buying_guide": {
+    "scenarios": [
+      {
+        "condition": "user_prefers_soft_cushion",
+        "recommendation": "Don't Buy",
+        "reason": "SG6 腳感偏硬，建議改選 Mafate Speed 4。"
+      },
+      {
+        "condition": "user_runs_technical_terrain",
+        "recommendation": "Buy",
+        "reason": "SG6 的穩定性與抓地力在碎石岩稜地形表現完美。"
+      },
+      {
+        "condition": "user_has_wide_feet",
+        "recommendation": "Try Wide Version First",
+        "reason": "一般楦頭極窄，務必試穿寬楦 (2E) 或大半號。"
+      }
+    ]
+  }
+}
+

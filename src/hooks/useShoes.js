@@ -82,10 +82,20 @@ export function useShoes() {
 
   const createShoe = async (shoeData) => {
     try {
+      // 處理 product_data：如果是物件，確保正確格式
+      const processedData = {
+        ...shoeData,
+        product_data: shoeData.product_data 
+          ? (typeof shoeData.product_data === 'string' 
+              ? shoeData.product_data 
+              : JSON.stringify(shoeData.product_data))
+          : null
+      }
+
       if (isSupabaseConfigured) {
         const { data, error } = await supabase
           .from('shoes')
-          .insert([shoeData])
+          .insert([processedData])
           .select()
           .single()
 
@@ -97,9 +107,13 @@ export function useShoes() {
         await new Promise(resolve => setTimeout(resolve, 300))
         const mockData = getMockShoes()
         const newShoe = {
-          ...shoeData,
+          ...processedData,
           id: Date.now().toString(),
           created_at: new Date().toISOString(),
+          // 在模擬模式下，product_data 保持為物件
+          product_data: typeof processedData.product_data === 'string'
+            ? JSON.parse(processedData.product_data)
+            : processedData.product_data
         }
         const updatedData = [newShoe, ...mockData]
         saveMockShoes(updatedData)
@@ -114,10 +128,20 @@ export function useShoes() {
 
   const updateShoe = async (id, shoeData) => {
     try {
+      // 處理 product_data：如果是物件，確保正確格式
+      const processedData = {
+        ...shoeData,
+        product_data: shoeData.product_data !== undefined
+          ? (typeof shoeData.product_data === 'string' 
+              ? shoeData.product_data 
+              : JSON.stringify(shoeData.product_data))
+          : undefined
+      }
+
       if (isSupabaseConfigured) {
         const { data, error } = await supabase
           .from('shoes')
-          .update(shoeData)
+          .update(processedData)
           .eq('id', id)
           .select()
           .single()
@@ -129,9 +153,17 @@ export function useShoes() {
         // 使用模擬資料
         await new Promise(resolve => setTimeout(resolve, 300))
         const mockData = getMockShoes()
-        const updatedData = mockData.map(shoe =>
-          shoe.id === id ? { ...shoe, ...shoeData } : shoe
-        )
+        const updatedData = mockData.map(shoe => {
+          if (shoe.id === id) {
+            const updated = { ...shoe, ...processedData }
+            // 在模擬模式下，product_data 保持為物件
+            if (updated.product_data && typeof updated.product_data === 'string') {
+              updated.product_data = JSON.parse(updated.product_data)
+            }
+            return updated
+          }
+          return shoe
+        })
         saveMockShoes(updatedData)
         setShoes(updatedData)
         return updatedData.find(s => s.id === id)

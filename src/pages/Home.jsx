@@ -14,11 +14,54 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState('')
 
   const filteredShoes = shoes.filter((shoe) => {
+    if (!searchQuery.trim()) return true
+    
     const query = searchQuery.toLowerCase()
-    return (
+    
+    // 搜尋直接欄位
+    const matchesDirect = (
       shoe.name?.toLowerCase().includes(query) ||
-      shoe.brand?.toLowerCase().includes(query)
+      shoe.brand?.toLowerCase().includes(query) ||
+      shoe.short_desc?.toLowerCase().includes(query)
     )
+    
+    if (matchesDirect) return true
+    
+    // 搜尋 product_data JSON
+    try {
+      let productData = {}
+      if (shoe.product_data) {
+        if (typeof shoe.product_data === 'string') {
+          const trimmed = shoe.product_data.trim()
+          if (trimmed && trimmed !== 'null' && trimmed !== '""') {
+            let parsed = JSON.parse(trimmed)
+            if (typeof parsed === 'string') {
+              try {
+                parsed = JSON.parse(parsed)
+              } catch (e2) {}
+            }
+            productData = parsed && typeof parsed === 'object' ? parsed : {}
+          }
+        } else if (typeof shoe.product_data === 'object') {
+          productData = shoe.product_data
+        }
+      }
+      
+      if (productData && typeof productData === 'object') {
+        const matchesJSON = (
+          productData.product_identity?.brand?.toLowerCase().includes(query) ||
+          productData.product_identity?.model_name?.toLowerCase().includes(query) ||
+          productData.product_identity?.nickname?.toLowerCase().includes(query) ||
+          productData.marketing_copy?.slogan?.toLowerCase().includes(query) ||
+          productData.marketing_copy?.one_sentence_summary?.toLowerCase().includes(query)
+        )
+        return matchesJSON
+      }
+    } catch (e) {
+      // 解析失敗，忽略
+    }
+    
+    return false
   })
 
   return (

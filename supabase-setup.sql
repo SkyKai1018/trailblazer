@@ -6,18 +6,23 @@ CREATE TABLE IF NOT EXISTS shoes (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   name VARCHAR(255) NOT NULL,
   brand VARCHAR(100) NOT NULL,
+  category VARCHAR(100),  -- 新增：鞋款類別
+  release_year INTEGER,  -- 新增：發行年份
   stack_height NUMERIC(5,2),
   drop NUMERIC(5,2),
   lug_depth NUMERIC(5,2),
   weight NUMERIC(6,2),
-  image_url TEXT,
-  video_url TEXT,
+  cover_image_url TEXT,  -- 新增：封面圖片 URL
+  youtube_video_url TEXT,  -- 新增：YouTube 影片連結
+  image_url TEXT,  -- 保留向後相容
+  video_url TEXT,  -- 保留向後相容
   pdf_url TEXT,
   slides TEXT[],  -- 投影片圖片 URL 陣列（推薦使用）
   short_desc TEXT,
   description TEXT,
   pros TEXT[],
   cons TEXT[],
+  product_data JSONB,  -- 新增：完整產品資料 JSON 結構
   created_at TIMESTAMP DEFAULT NOW()
 );
 
@@ -68,5 +73,9 @@ CREATE POLICY "Admins can manage shoes" ON shoes
 CREATE INDEX IF NOT EXISTS idx_reviews_shoe_id ON reviews(shoe_id);
 CREATE INDEX IF NOT EXISTS idx_reviews_created_at ON reviews(created_at);
 CREATE INDEX IF NOT EXISTS idx_shoes_brand ON shoes(brand);
+CREATE INDEX IF NOT EXISTS idx_shoes_category ON shoes(category);
+CREATE INDEX IF NOT EXISTS idx_shoes_release_year ON shoes(release_year);
 CREATE INDEX IF NOT EXISTS idx_shoes_created_at ON shoes(created_at);
+-- JSONB 索引（支援 JSON 查詢）
+CREATE INDEX IF NOT EXISTS idx_shoes_product_data ON shoes USING GIN (product_data);
 

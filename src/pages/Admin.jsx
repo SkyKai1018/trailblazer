@@ -30,10 +30,13 @@ export default function Admin() {
     return null
   }
 
-  const handleDelete = async (id) => {
-    if (window.confirm('確定要刪除此鞋款嗎？')) {
+  const handleDelete = async (id, shoeName) => {
+    const confirmMessage = `確定要刪除「${shoeName || '此鞋款'}」嗎？\n\n此操作無法復原！`
+    if (window.confirm(confirmMessage)) {
       try {
         await deleteShoe(id)
+        // 可選：顯示成功訊息
+        // alert('刪除成功')
       } catch (error) {
         alert('刪除失敗：' + error.message)
       }
@@ -99,9 +102,9 @@ export default function Admin() {
                             <Edit size={18} />
                           </button>
                           <button
-                            onClick={() => handleDelete(shoe.id)}
+                            onClick={() => handleDelete(shoe.id, shoe.name)}
                             className="p-2 text-red-600 hover:bg-red-50 rounded transition-colors"
-                            title="刪除"
+                            title="刪除此鞋款"
                           >
                             <Trash2 size={18} />
                           </button>

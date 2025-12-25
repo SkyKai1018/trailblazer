@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { supabase, isSupabaseConfigured } from '../services/supabase'
+import { ADMIN_EMAILS } from '../utils/constants'
 
 const MOCK_USER_KEY = 'trailblazer_mock_user'
 
@@ -86,9 +87,26 @@ export function useAuth() {
   }
 
   const isAdmin = () => {
-    // 目前綁定於登入狀態，實務上可綁定特定 Email
-    // 在模擬模式下，登入後即為管理員
-    return user !== null
+    if (!user) return false
+    
+    // 檢查用戶的 Email 是否在管理員列表中
+    const userEmail = user.email?.toLowerCase()
+    
+    if (!userEmail) return false
+    
+    // 檢查是否在管理員列表中
+    const isAuthorized = ADMIN_EMAILS.some(
+      adminEmail => adminEmail.toLowerCase() === userEmail
+    )
+    
+    // 如果管理員列表為空，則所有登入用戶都是管理員（開發模式）
+    // 如果管理員列表有內容，則只允許列表中的用戶
+    if (ADMIN_EMAILS.length === 0) {
+      // 開發模式：所有登入用戶都是管理員
+      return true
+    }
+    
+    return isAuthorized
   }
 
   return {

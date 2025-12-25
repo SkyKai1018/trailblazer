@@ -17,10 +17,15 @@ export default function AdminShoeForm() {
   const [formData, setFormData] = useState({
     name: '',
     brand: '',
+    category: '',
+    release_year: '',
+    release_month: '',
     stack_height: '',
     drop: '',
     lug_depth: '',
     weight: '',
+    cover_image_url: '',
+    youtube_video_url: '',
     image_url: '',
     video_url: '',
     pdf_url: '',
@@ -29,12 +34,14 @@ export default function AdminShoeForm() {
     description: '',
     pros: [],
     cons: [],
+    product_data: '',
   })
 
   const [prosInput, setProsInput] = useState('')
   const [consInput, setConsInput] = useState('')
   const [slidesInput, setSlidesInput] = useState('')
   const [loading, setLoading] = useState(false)
+  const [productDataError, setProductDataError] = useState('')
 
   useEffect(() => {
     if (!authLoading && !isAdmin) {
@@ -47,13 +54,41 @@ export default function AdminShoeForm() {
       const fetchShoe = async () => {
         try {
           const shoe = await getShoeById(id)
+          // 處理 product_data：如果是物件，轉為 JSON 字串
+          let productDataStr = ''
+          if (shoe.product_data) {
+            try {
+              productDataStr = typeof shoe.product_data === 'string'
+                ? shoe.product_data
+                : JSON.stringify(shoe.product_data, null, 2)
+            } catch (e) {
+              console.error('解析 product_data 失敗:', e)
+            }
+          }
+          
+          // 從 product_data 中提取 release_month
+          let releaseMonth = ''
+          if (productDataStr) {
+            try {
+              const parsed = JSON.parse(productDataStr)
+              releaseMonth = parsed?.product_identity?.release_month || ''
+            } catch (e) {
+              // 忽略解析錯誤
+            }
+          }
+          
           setFormData({
             name: shoe.name || '',
             brand: shoe.brand || '',
+            category: shoe.category || '',
+            release_year: shoe.release_year || '',
+            release_month: releaseMonth,
             stack_height: shoe.stack_height || '',
             drop: shoe.drop || '',
             lug_depth: shoe.lug_depth || '',
             weight: shoe.weight || '',
+            cover_image_url: shoe.cover_image_url || '',
+            youtube_video_url: shoe.youtube_video_url || '',
             image_url: shoe.image_url || '',
             video_url: shoe.video_url || '',
             pdf_url: shoe.pdf_url || '',
@@ -62,6 +97,7 @@ export default function AdminShoeForm() {
             description: shoe.description || '',
             pros: shoe.pros || [],
             cons: shoe.cons || [],
+            product_data: productDataStr,
           })
         } catch (error) {
           console.error('載入鞋款資料失敗:', error)
@@ -102,14 +138,56 @@ export default function AdminShoeForm() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
+    setProductDataError('')
 
     try {
+      // 驗證並解析 product_data JSON
+      let productDataObj = null
+      if (formData.product_data && formData.product_data.trim()) {
+        try {
+          productDataObj = JSON.parse(formData.product_data)
+          
+          // 確保 product_identity 存在
+          if (!productDataObj.product_identity) {
+            productDataObj.product_identity = {}
+          }
+          
+          // 更新發行年份和月份到 product_identity
+          if (formData.release_year) {
+            productDataObj.product_identity.release_year = parseInt(formData.release_year)
+          }
+          if (formData.release_month) {
+            productDataObj.product_identity.release_month = parseInt(formData.release_month)
+          }
+        } catch (e) {
+          setProductDataError('product_data JSON 格式錯誤：' + e.message)
+          setLoading(false)
+          return
+        }
+      } else {
+        // 如果沒有 product_data，建立基本結構
+        productDataObj = {
+          product_identity: {}
+        }
+        if (formData.release_year) {
+          productDataObj.product_identity.release_year = parseInt(formData.release_year)
+        }
+        if (formData.release_month) {
+          productDataObj.product_identity.release_month = parseInt(formData.release_month)
+        }
+      }
+
+      // 從 formData 中移除 release_month，因為它只存在於 product_data 中
+      const { release_month, ...dataWithoutMonth } = formData
+      
       const submitData = {
-        ...formData,
+        ...dataWithoutMonth,
         stack_height: formData.stack_height ? parseFloat(formData.stack_height) : null,
         drop: formData.drop ? parseFloat(formData.drop) : null,
         lug_depth: formData.lug_depth ? parseFloat(formData.lug_depth) : null,
         weight: formData.weight ? parseFloat(formData.weight) : null,
+        release_year: formData.release_year ? parseInt(formData.release_year) : null,
+        product_data: productDataObj,
       }
 
       if (isEditMode) {
@@ -180,6 +258,51 @@ export default function AdminShoeForm() {
 
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-2">
+                  類別
+                </label>
+                <input
+                  type="text"
+                  name="category"
+                  value={formData.category}
+                  onChange={handleInputChange}
+                  placeholder="例如：Trail Running Shoes"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    發行年份
+                  </label>
+                  <input
+                    type="number"
+                    name="release_year"
+                    value={formData.release_year}
+                    onChange={handleInputChange}
+                    placeholder="例如：2024"
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    發行月份
+                  </label>
+                  <input
+                    type="number"
+                    name="release_month"
+                    value={formData.release_month}
+                    onChange={handleInputChange}
+                    placeholder="例如：5 (1-12)"
+                    min="1"
+                    max="12"
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-2">
                   Stack Height (mm)
                 </label>
                 <input
@@ -237,7 +360,52 @@ export default function AdminShoeForm() {
 
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-2">
-                主圖片
+                封面圖片（新格式）
+              </label>
+              <FileUpload
+                label=""
+                accept="image/*"
+                folder="images"
+                maxSize={5 * 1024 * 1024} // 5MB
+                onUploadComplete={(url) => {
+                  if (url) {
+                    setFormData(prev => ({ ...prev, cover_image_url: url }))
+                  }
+                }}
+              />
+              <div className="mt-2">
+                <p className="text-xs text-slate-500 mb-1">或輸入圖片 URL：</p>
+                <input
+                  type="text"
+                  name="cover_image_url"
+                  value={formData.cover_image_url || ''}
+                  onChange={handleInputChange}
+                  placeholder="https://example.com/cover-image.jpg"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-2">
+                YouTube 影片連結（新格式）
+              </label>
+              <input
+                type="text"
+                name="youtube_video_url"
+                value={formData.youtube_video_url || ''}
+                onChange={handleInputChange}
+                placeholder="https://www.youtube.com/watch?v=..."
+                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              />
+              <p className="text-xs text-slate-500 mt-1">
+                輸入完整的 YouTube 影片 URL
+              </p>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-2">
+                主圖片（向後相容）
               </label>
               <FileUpload
                 label=""
@@ -518,6 +686,30 @@ export default function AdminShoeForm() {
                   ))}
                 </div>
               </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-2">
+                完整產品資料 JSON（進階）
+              </label>
+              <textarea
+                name="product_data"
+                value={formData.product_data}
+                onChange={handleInputChange}
+                rows={12}
+                placeholder='{"metadata": {...}, "product_identity": {...}, ...}'
+                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 font-mono text-sm ${
+                  productDataError 
+                    ? 'border-red-300 focus:ring-red-500' 
+                    : 'border-slate-300 focus:ring-emerald-500'
+                }`}
+              />
+              {productDataError && (
+                <p className="text-xs text-red-600 mt-1">{productDataError}</p>
+              )}
+              <p className="text-xs text-slate-500 mt-1">
+                可參考範例 JSON 結構。留空則不使用完整產品資料格式。
+              </p>
             </div>
 
             <div className="flex gap-4 pt-4">
