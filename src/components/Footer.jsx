@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="container mx-auto px-4 text-center">
         <div className="flex items-center justify-center gap-2 mb-2">
           <Mountain size={20} className="text-emerald-600" />
-          <span className="font-semibold">TrailBlazer Running Database</span>
+          <span className="font-semibold">Sk Trail - 越野跑鞋推薦平台</span>
         </div>
         <p className="text-sm">© 2025 All Rights Reserved.</p>
       </div>

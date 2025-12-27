@@ -19,7 +19,7 @@ export default function StructuredData({ shoe, productData }) {
       "@type": "Brand",
       "name": brand
     },
-    "category": productData?.product_identity?.category || "Trail Running Shoes",
+    "category": productData?.product_identity?.category || "越野跑鞋",
   }
 
   // 如果有價格資訊，添加 offers

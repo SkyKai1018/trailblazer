@@ -29,10 +29,10 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
             <div className="w-8 h-8 bg-emerald-600 rounded flex items-center justify-center">
-              <span className="text-white font-bold text-lg">T</span>
+              <span className="text-white font-bold text-lg">S</span>
             </div>
-            <span className="font-bold text-xl">TrailBlazer</span>
-            <span className="text-sm text-slate-300">越野跑鞋圖鑑</span>
+            <span className="font-bold text-xl">Sk Trail</span>
+            <span className="text-sm text-slate-300">越野跑鞋推薦</span>
           </Link>
 
           <div className="flex items-center gap-4">

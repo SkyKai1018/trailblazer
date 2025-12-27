@@ -79,11 +79,11 @@ export default function Home() {
   return (
     <>
       <Helmet>
-        <title>越野跑鞋圖鑑 TrailBlazer | 專業評測與購買指南</title>
-        <meta name="description" content="TrailBlazer 越野跑鞋圖鑑 - 最完整的越野跑鞋評測資料庫，包含詳細規格、性能分析、購買指南與使用者評價。幫助你找到最適合的越野跑鞋。" />
-        <meta name="keywords" content="越野跑鞋圖鑑, trailblazer, 越野跑鞋, 跑鞋推薦, 越野跑鞋購買, 跑鞋評測, 越野鞋, trail running shoes, 跑鞋比較, 最佳越野跑鞋" />
-        <meta property="og:title" content="越野跑鞋圖鑑 TrailBlazer | 專業評測與購買指南" />
-        <meta property="og:description" content="TrailBlazer 越野跑鞋圖鑑 - 最完整的越野跑鞋評測資料庫，包含詳細規格、性能分析、購買指南與使用者評價。" />
+        <title>Sk Trail 越野跑鞋推薦 | 越野跑、越野跑比賽、跑鞋評測指南</title>
+        <meta name="description" content="Sk Trail - 最完整的越野跑鞋推薦與評測平台。提供越野跑、越野跑比賽資訊，專業的越野跑鞋推薦、跑鞋評測與購買指南。幫助你找到最適合的越野跑鞋。" />
+        <meta name="keywords" content="越野跑, 越野跑鞋, 越野跑比賽, 越野跑鞋推薦, 跑鞋, 跑鞋推薦, 跑鞋評測, 越野跑鞋評測, 越野跑鞋購買, 越野鞋, trail running, 跑鞋比較, 最佳越野跑鞋, 越野跑鞋圖鑑" />
+        <meta property="og:title" content="Sk Trail 越野跑鞋推薦 | 越野跑、越野跑比賽、跑鞋評測指南" />
+        <meta property="og:description" content="Sk Trail - 最完整的越野跑鞋推薦與評測平台。提供越野跑、越野跑比賽資訊，專業的越野跑鞋推薦、跑鞋評測與購買指南。" />
         <meta property="og:url" content="https://trailblazer.zeabur.app" />
         <meta property="og:type" content="website" />
         <link rel="canonical" href={typeof window !== 'undefined' ? window.location.origin : ''} />
@@ -94,12 +94,15 @@ export default function Home() {
         {/* SEO 優化：添加關鍵字豐富的內容 */}
         <div className="max-w-4xl mx-auto mb-8 text-center">
           <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-            TrailBlazer 越野跑鞋圖鑑
+            Sk Trail 越野跑鞋推薦
           </h1>
           <p className="text-lg text-slate-600 mb-6">
-            最完整的越野跑鞋評測資料庫，提供專業的規格分析、性能測試、購買指南與真實使用者評價。
-            TrailBlazer 幫助你找到最適合的越野跑鞋。
+            最完整的越野跑鞋推薦與評測平台。提供專業的越野跑鞋推薦、跑鞋評測、越野跑比賽資訊與購買指南。
+            無論你是越野跑新手還是資深跑者，Sk Trail 幫助你找到最適合的越野跑鞋，讓你的越野跑體驗更上一層樓。
           </p>
+          <div className="text-sm text-slate-500 space-y-2">
+            <p>探索最新越野跑鞋推薦 | 專業跑鞋評測 | 越野跑比賽資訊</p>
+          </div>
         </div>
         
         <div className="max-w-4xl mx-auto mb-6">

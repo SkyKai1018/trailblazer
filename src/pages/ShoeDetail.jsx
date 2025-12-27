@@ -136,22 +136,22 @@ export default function ShoeDetail() {
   const brand = productData.product_identity?.brand || shoe.brand
   const modelName = productData.product_identity?.model_name || shoe.name
   const summary = productData.marketing_copy?.one_sentence_summary || shoe.short_desc || `${brand} ${modelName} 詳細評測`
-  const keywords = `${brand}, ${modelName}, 越野跑鞋, 跑鞋推薦, 跑鞋評測, ${brand} ${modelName} 購買, 越野跑鞋推薦`
+  const keywords = `${brand}, ${modelName}, 越野跑, 越野跑鞋, 越野跑比賽, 越野跑鞋推薦, 跑鞋, 跑鞋推薦, 跑鞋評測, ${brand} ${modelName} 購買, 越野跑鞋評測`
 
   return (
     <>
       <Helmet>
-        <title>{`${brand} ${modelName} 評測 | 越野跑鞋圖鑑`}</title>
-        <meta name="description" content={summary} />
+        <title>{`${brand} ${modelName} 評測 | Sk Trail 越野跑鞋推薦`}</title>
+        <meta name="description" content={`${summary} - Sk Trail 專業越野跑鞋評測，提供詳細規格、性能分析與購買指南。`} />
         <meta name="keywords" content={keywords} />
-        <meta property="og:title" content={`${brand} ${modelName} 評測`} />
-        <meta property="og:description" content={summary} />
+        <meta property="og:title" content={`${brand} ${modelName} 評測 | Sk Trail 越野跑鞋推薦`} />
+        <meta property="og:description" content={`${summary} - Sk Trail 專業越野跑鞋評測平台。`} />
         <meta property="og:image" content={coverImageUrl || shoe.image_url || ''} />
         <meta property="og:type" content="product" />
         <meta property="og:url" content={typeof window !== 'undefined' ? `${window.location.origin}/shoe/${shoe.id}` : ''} />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={`${brand} ${modelName} 評測`} />
-        <meta name="twitter:description" content={summary} />
+        <meta name="twitter:title" content={`${brand} ${modelName} 評測 | Sk Trail`} />
+        <meta name="twitter:description" content={`${summary} - Sk Trail 專業越野跑鞋評測。`} />
         <link rel="canonical" href={typeof window !== 'undefined' ? `${window.location.origin}/shoe/${shoe.id}` : ''} />
       </Helmet>
       <StructuredData shoe={shoe} productData={productData} />
